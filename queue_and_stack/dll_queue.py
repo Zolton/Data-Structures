@@ -14,7 +14,7 @@ class Queue:
         # self.storage = ?
 
     def enqueue(self, value):
-        print("working", value)
+        print("working queue", value)
         self.size += 1
         self.node.add_to_head(value)
         
