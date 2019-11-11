@@ -126,7 +126,7 @@ class DoublyLinkedList:
             self.head = node.next
             node.delete()
         elif self.tail is node:
-            self.tail = node.previous
+            self.tail = node.prev
             node.delete()
         else:
             node.delete()
