@@ -28,7 +28,7 @@ class LRUCache:
         # then update hash table with new key/location
 
         # If the key exists
-        if self.cache[key] is True:
+        if self.cache.get(key, "gabba") != "gabba":
             # Add value to tail/most recently accessed
             newest = self.node.add_to_tail(self.cache[key].value)
 
@@ -36,13 +36,14 @@ class LRUCache:
             self.cache[key] = newest
 
             #removes value from old location
-            self.node.delete(self.cache[key].value)
+            self.node.delete(self.cache[key])
 
             # Return requested value
             return self.cache[key].value
-            
+
         # If there is no key, return None
         else:
+            #answer = self.cache.get(key, None)
             return None
 
     """
@@ -63,17 +64,35 @@ class LRUCache:
             self.set(key, value)
 
         # If key doesn't exist, create it
-        if self.get(key) == None:
+        if self.cache.get(key, "gabba") == "gabba":
             newValue = self.node.add_to_tail(value)
             self.cache[key] = newValue
             return value
-
+            
         # If key already exists, overwrite value in DLL
         else:
             # Delete old value
             self.node.delete(self.cache[key])
+
             # Add new value to tail
             update = self.node.add_to_tail(value)
+
             # Update cache with new location
             self.cache[key] = update
+
+            # print("dictionary itself: ", self.cache)
+            # print("given values: ", key, value)
+            # #newest = self.node.add_to_tail(value)
+            # self.cache[key] = self.node.add_to_tail(value)
+            # print("cache key-value location", self.cache[key])
+            # print("cache key-actual value", self.cache[key].value)
+            # self.cache["test"] = 1
+            # print("test1", self.cache["test"])
+            # self.cache["test"] = 2
+            # print("test2", self.cache["test"])
+            # print("test3", self.cache, len(self.cache))
+            # print("test4", self.cache["oogabooga"])
+        
+        # Add key to cache
+        # Add value to head of DLL, and update key with its node
         
