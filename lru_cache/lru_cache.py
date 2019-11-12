@@ -1,3 +1,5 @@
+from doubly_linked_list import DoublyLinkedList
+
 class LRUCache:
     """
     Our LRUCache class keeps track of the max number of nodes it
@@ -6,8 +8,10 @@ class LRUCache:
     order, as well as a storage dict that provides fast access
     to every node stored in the cache.
     """
-    def __init__(self, limit=10):
-        pass
+    def __init__(self, limit=10, node=None):
+        self.length = 1 if node is not None else 0
+        self.node = DoublyLinkedList()
+        self.cache = {}
 
     """
     Retrieves the value associated with the given key. Also
@@ -17,7 +21,29 @@ class LRUCache:
     key-value pair doesn't exist in the cache.
     """
     def get(self, key):
-        pass
+        # Cache holds the key/node location of value, 
+        # DLL holds the actual value
+        # When retrieved, 
+        # remove from current location, and add_to_tail,
+        # then update hash table with new key/location
+
+        # If the key exists
+        if self.cache[key] is True:
+            # Add value to tail/most recently accessed
+            newest = self.node.add_to_tail(self.cache[key].value)
+
+            # Update location in cache
+            self.cache[key] = newest
+
+            #removes value from old location
+            self.node.delete(self.cache[key].value)
+
+            # Return requested value
+            return self.cache[key].value
+            
+        # If there is no key, return None
+        else:
+            return None
 
     """
     Adds the given key-value pair to the cache. The newly-
@@ -30,4 +56,24 @@ class LRUCache:
     the newly-specified value.
     """
     def set(self, key, value):
-        pass
+        # if limit > 10, remove entry #11 
+        # and send everything back through again
+        if len(self.cache) > 10:
+            self.node.remove_from_head()
+            self.set(key, value)
+
+        # If key doesn't exist, create it
+        if self.get(key) == None:
+            newValue = self.node.add_to_tail(value)
+            self.cache[key] = newValue
+            return value
+
+        # If key already exists, overwrite value in DLL
+        else:
+            # Delete old value
+            self.node.delete(self.cache[key])
+            # Add new value to tail
+            update = self.node.add_to_tail(value)
+            # Update cache with new location
+            self.cache[key] = update
+        

@@ -86,10 +86,12 @@ class DoublyLinkedList:
         if not self.head and not self.tail:
             self.head = new_node
             self.tail = new_node
+            return self.tail
         else: 
             new_node.prev = self.tail
             self.tail.next = new_node
             self.tail = new_node
+            return self.tail
 
     """Removes the List's current tail node, making the 
     current tail's previous node the new tail of the List.
