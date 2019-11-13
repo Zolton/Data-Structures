@@ -30,22 +30,19 @@ class LRUCache:
 
         # If the key exists
         if self.cache.get(key, "gabba") != "gabba":
-            print("GET request: ", key)
-            # Add value to tail/most recently accessed
-            newest = self.node.add_to_tail(self.cache[key].value)
+            # Step 1: Move to tail of list as most recently accessed
+            # Record new location
+            newest = self.node.move_to_end(self.cache[key])
 
-            # Update location in cache
+            #Step 2 
+            #???
+
+            # Step 3: Profit! Add new key-value pair
             self.cache[key] = newest
-
-            #removes value from old location
-            self.node.delete(self.cache[key])
-
-            # Return requested value
             return self.cache[key].value
 
         # If there is no key, return None
         else:
-            print("GET request failed: ", key)
             answer = self.cache.get(key, None)
             return answer
 
@@ -60,28 +57,10 @@ class LRUCache:
     the newly-specified value.
     """
     def set(self, key, value):
-        #print("length", len(self.cache))
-        # if limit > 10, remove entry #11 
-        # and send everything back through again
-        if len(self.cache) == self.limit:
-            print("Weight limit exceeded")
-            self.node.remove_from_head()
-            itemDel = list(self.cache.keys())[0]
-            print("item deleted: ", itemDel)
-            self.cache.pop(itemDel)
-            print("attempted key value", key, value)
-            self.set(key, value)
 
-        # If key doesn't exist, create it
-        if self.cache.get(key, "gabba") == "gabba":
-            print("New key added: ", key, value)
-            newValue = self.node.add_to_tail(value)
-            self.cache[key] = newValue
-            return value
-            
         # If key already exists, overwrite value in DLL
-        else:
-            print("Key overwritten: ", key, value)
+        if self.cache.get(key, "gabba") != "gabba":
+
             # Delete old value
             self.node.delete(self.cache[key])
 
@@ -89,7 +68,44 @@ class LRUCache:
             update = self.node.add_to_tail(value)
 
             # Update cache with new location
-            self.cache[key] = update
+            self.cache[key] = update  
+
+        # If key does not exist:
+        elif self.cache.get(key, "gabba") == "gabba":
+
+            # First check if there's room
+            if len(self.cache) == self.limit:
+
+                # If not:
+                # Step 1: Find oldest node,
+                # Store as the address, ie - 0x000001B7150EF3D0
+                oldNode = self.node.head
+
+                
+                # Step 2: Find dictionary entry for oldNode:
+                for i in self.cache.items():
+                    # i[0] = key name, i[1] = node address
+                    # Step 2a: If there's a match
+                    if oldNode is i[1]:
+                        # Step 2b: Record it
+                        itemDel = i[0]
+
+                # Step 3: Once out of the loop, delete the key
+                self.cache.pop(itemDel)
+                
+                # Step 4: Remove it from the list
+                self.node.remove_from_head()
+
+                # Step 5: Send the key-value back through now that there's room
+                self.set(key, value)
+
+            # If there's room, add it in
+            else:
+                newValue = self.node.add_to_tail(value)
+                self.cache[key] = newValue
+                return value
+            
+        # If key already exists, overwrite value in DLL
         
         # Add key to cache
         # Add value to head of DLL, and update key with its node

@@ -123,6 +123,7 @@ class DoublyLinkedList:
         value = node.value
         self.delete(node)
         self.add_to_tail(value)
+        return self.tail
 
     """Removes a node from the list and handles cases where
     the node was the head or the tail"""

@@ -20,7 +20,7 @@ class CacheTests(unittest.TestCase):
         self.cache.set('item1', 'a')
         self.cache.set('item2', 'b')
         self.cache.set('item3', 'c')
-
+        #GET request should send item1-a back to the most
         self.assertEqual(self.cache.get('item1'), 'a')
         self.cache.set('item4', 'd')
 
