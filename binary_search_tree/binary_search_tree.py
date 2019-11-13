@@ -95,7 +95,24 @@ class BinarySearchTree:
     def for_each(self, cb):
         #Check every node, but only once
         # Go left until null, then go back and go right
-        #while self.right is not None and self.left is not None:
+        if self is None:
+            return
+        else:
+            cb(self.value)
+            # if self.left is not None:
+            #left = self.left
+            # if self.right is not None:
+            #right = self.right
+            #self = left
+            if self.left is not None:
+
+                self.left.for_each(cb)
+            #self = right
+            if self.right is not None:
+                self.right.for_each(cb)
+            
+            
+            #while self.right is not None:
 
     # DAY 2 Project -----------------------
 
