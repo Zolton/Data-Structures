@@ -82,10 +82,16 @@ class BinarySearchTree:
     def bft_print(self, node):
         self.queue.enqueue(node)
         while self.queue.len() > 0:
+            # If there's something in the queue, print it, then pop it.,
+            # Then check if it has family. Just once!  
+            # Got 10 mill?  Don't matter, we're in a loop, will
+            # get to it eventually - just print/pop once
             current = self.queue.dequeue()
             print(current.value)
+            # Got a left?  Add it in
             if current.left is not None:
                  self.queue.enqueue(current.left)
+            # Got a right? add it in
             if current.right is not None:
                 self.queue.enqueue(current.right)
 
