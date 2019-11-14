@@ -12,13 +12,13 @@ class Stack:
         # self.storage = ?
 
     def push(self, value):
-        print("working stack", value)
+        #print("working stack", value)
         self.size += 1
         self.node.add_to_head(value)
 
     def pop(self):
         if self.size < 1:
-            return None
+            return
         else:
             self.size -= 1
             return self.node.remove_from_head()

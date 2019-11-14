@@ -14,13 +14,13 @@ class Queue:
         # self.storage = ?
 
     def enqueue(self, value):
-        print("working queue", value)
+        #print("working queue", value)
         self.size += 1
         self.node.add_to_head(value)
         
 
     def dequeue(self):
-        print("working")
+        #print("working")
         if self.size < 1:
             return None
         else:
