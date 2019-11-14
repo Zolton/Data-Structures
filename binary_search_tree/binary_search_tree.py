@@ -72,39 +72,46 @@ class BinarySearchTree:
     # Hint:  Use a recursive, depth first traversal
     def in_order_print(self, node):
         #print(self.stack.pop())
-        
-        
         if node.left is not None:
             #print("left value, ", node.left.value)
             self.in_order_print(node.left)
-        print("+", node.value)
+        print(node.value)
         if node.right is not None:
             #print("right value, ", node.right.value)
             self.in_order_print(node.right)
-        
-        
-        #print("value, ", node.value)
-        
-        
-        
 
     # Print the value of every node, starting with the given node,
     # in an iterative breadth first traversal
     def bft_print(self, node):
-        pass
-        #while node.left is not None:
-        #     print(node.value)
-        #     self.bft_print(node.left)
-        # #while node.right is not None:
-        #     print(node.value)
-        #     self.bft_print(node.right)
-        # while node.left is not None or node.right is not None:
-        #     for i in node:
-        #         print(node.left, nod)
+        self.queue.enqueue(node)
         
+        while self.queue.len() > 0:
+            if node.left is not None:
+                 self.queue.enqueue(node.left.value)
+                 for i in range(0, self.queue.len()):
+                    print(node.value)
+                    self.queue.dequeue()
+            if node.right is not None:
+                self.queue.enqueue(node.right.value)
+                for i in range(0, self.queue.len()):
+                    print(node.value)
+                    self.queue.dequeue()
+
+# def get_breadth_first_nodes(root):
+#     nodes = []
+#     stack = [root]
+#     while stack:
+#         cur_node = stack[0]
+#         stack = stack[1:]
+#         nodes.append(cur_node)
+#         for child in cur_node.get_children():
+#             stack.append(child)
+#     return nodes
+
     # Print the value of every node, starting with the given node,
     # in an iterative depth first traversal
-    #def dft_print(self, node):
+    def dft_print(self, node):
+        pass
         
 
     # STRETCH Goals -------------------------
