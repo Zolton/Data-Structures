@@ -83,35 +83,38 @@ class BinarySearchTree:
     # Print the value of every node, starting with the given node,
     # in an iterative breadth first traversal
     def bft_print(self, node):
+        #if self.queue.len() == 0:
+            #return
         self.queue.enqueue(node)
         
         while self.queue.len() > 0:
-            if node.left is not None:
-                 self.queue.enqueue(node.left.value)
-                 for i in range(0, self.queue.len()):
-                    print(node.value)
-                    self.queue.dequeue()
-            if node.right is not None:
-                self.queue.enqueue(node.right.value)
-                for i in range(0, self.queue.len()):
-                    print(node.value)
-                    self.queue.dequeue()
-
-# def get_breadth_first_nodes(root):
-#     nodes = []
-#     stack = [root]
-#     while stack:
-#         cur_node = stack[0]
-#         stack = stack[1:]
-#         nodes.append(cur_node)
-#         for child in cur_node.get_children():
-#             stack.append(child)
-#     return nodes
+            current = self.queue.dequeue()
+            print(current.value)
+            # for i in self.queue.node.tail:
+            #     #print("value is: ", i.value)
+            #     print(current)
+            if current.left is not None:
+                 self.queue.enqueue(current.left)
+            if current.right is not None:
+                self.queue.enqueue(current.right)
 
     # Print the value of every node, starting with the given node,
     # in an iterative depth first traversal
     def dft_print(self, node):
-        pass
+                #if self.queue.len() == 0:
+            #return
+        self.stack.push(node)
+        
+        while self.stack.len() > 0:
+            current = self.stack.pop()
+            print(current.value)
+            # for i in self.queue.node.tail:
+            #     #print("value is: ", i.value)
+            #     print(current)
+            if current.left is not None:
+                 self.stack.push(current.left)
+            if current.right is not None:
+                self.stack.push(current.right)
         
 
     # STRETCH Goals -------------------------
