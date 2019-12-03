@@ -1,3 +1,5 @@
+from doubly_linked_list import DoublyLinkedList
+
 class LRUCache:
     """
     Our LRUCache class keeps track of the max number of nodes it
@@ -6,8 +8,11 @@ class LRUCache:
     order, as well as a storage dict that provides fast access
     to every node stored in the cache.
     """
-    def __init__(self, limit=10):
-        pass
+    def __init__(self, limit=10, node=None):
+        self.length = 1 if node is not None else 0
+        self.node = DoublyLinkedList()
+        self.cache = {}
+        self.limit = limit
 
     """
     Retrieves the value associated with the given key. Also
@@ -17,7 +22,29 @@ class LRUCache:
     key-value pair doesn't exist in the cache.
     """
     def get(self, key):
-        pass
+        # Cache holds the key/node location of value, 
+        # DLL holds the actual value
+        # When retrieved, 
+        # remove from current location, and add_to_tail,
+        # then update hash table with new key/location
+
+        # If the key exists
+        if self.cache.get(key, "gabba") != "gabba":
+            # Step 1: Move to tail of list as most recently accessed
+            # Record new location
+            newest = self.node.move_to_end(self.cache[key])
+
+            #Step 2 
+            #???
+
+            # Step 3: Profit! Add new key-value pair
+            self.cache[key] = newest
+            return self.cache[key].value
+
+        # If there is no key, return None
+        else:
+            answer = self.cache.get(key, None)
+            return answer
 
     """
     Adds the given key-value pair to the cache. The newly-
@@ -30,4 +57,56 @@ class LRUCache:
     the newly-specified value.
     """
     def set(self, key, value):
-        pass
+
+        # If key already exists, overwrite value in DLL
+        if self.cache.get(key, "gabba") != "gabba":
+
+            # Delete old value
+            self.node.delete(self.cache[key])
+
+            # Add new value to tail
+            update = self.node.add_to_tail(value)
+
+            # Update cache with new location
+            self.cache[key] = update  
+
+        # If key does not exist:
+        elif self.cache.get(key, "gabba") == "gabba":
+
+            # First check if there's room
+            if len(self.cache) == self.limit:
+
+                # If not:
+                # Step 1: Find oldest node,
+                # Store as the address, ie - 0x000001B7150EF3D0
+                oldNode = self.node.head
+
+                
+                # Step 2: Find dictionary entry for oldNode:
+                for i in self.cache.items():
+                    # i[0] = key name, i[1] = node address
+                    # Step 2a: If there's a match
+                    if oldNode is i[1]:
+                        # Step 2b: Record it
+                        itemDel = i[0]
+
+                # Step 3: Once out of the loop, delete the key
+                self.cache.pop(itemDel)
+                
+                # Step 4: Remove it from the list
+                self.node.remove_from_head()
+
+                # Step 5: Send the key-value back through now that there's room
+                self.set(key, value)
+
+            # If there's room, add it in
+            else:
+                newValue = self.node.add_to_tail(value)
+                self.cache[key] = newValue
+                return value
+            
+        # If key already exists, overwrite value in DLL
+        
+        # Add key to cache
+        # Add value to head of DLL, and update key with its node
+        
